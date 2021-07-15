@@ -2,6 +2,7 @@ mod hub;
 use crate::hub::Hub;
 use color_eyre::{Report, Result};
 use rss::{Channel, ChannelBuilder, GuidBuilder, ItemBuilder};
+use tokio::signal::unix::{signal, SignalKind};
 use warp::reject::Reject;
 use warp::{Filter, Rejection};
 
@@ -17,7 +18,13 @@ async fn main() -> Result<()> {
     let feed_route = warp::path!(String / String).and(hub).and_then(feed);
     let routes = feed_route.clone().or(warp::path!("r" / ..).and(feed_route));
 
-    warp::serve(routes).run(([0, 0, 0, 0], port)).await;
+    let mut int = signal(SignalKind::interrupt())?;
+    warp::serve(routes)
+        .bind_with_graceful_shutdown(([0, 0, 0, 0], port), async move {
+            int.recv().await;
+        })
+        .1
+        .await;
 
     Ok(())
 }
