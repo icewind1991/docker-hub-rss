@@ -2,6 +2,9 @@
 name = "docker-hub-rss"
 version = "0.1.0"
 edition = "2018"
+description = "RSS feed for Docker Hub images"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/icewind1991/docker-hub-rss"
 
 [dependencies]
 tokio = { version = "1", features = ["macros", "rt-multi-thread", "signal"] }
