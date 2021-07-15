@@ -32,25 +32,16 @@ async fn main() -> Result<()> {
 #[derive(Debug)]
 struct ReportRejection(Report);
 
-impl From<Report> for ReportRejection {
-    fn from(report: Report) -> Self {
-        Self(report)
-    }
-}
-
 impl Reject for ReportRejection {}
 
 async fn feed(user: String, repo: String, hub: Hub) -> Result<impl warp::Reply, Rejection> {
     feed_inner(user, repo, hub)
         .await
+        .map_err(ReportRejection)
         .map_err(warp::reject::custom)
 }
 
-async fn feed_inner(
-    user: String,
-    repo: String,
-    hub: Hub,
-) -> Result<impl warp::Reply, ReportRejection> {
+async fn feed_inner(user: String, repo: String, hub: Hub) -> Result<impl warp::Reply> {
     let repo = repo.trim_end_matches(".atom").to_string();
     let mut channel: Channel = ChannelBuilder::default()
         .title(format!("{}/{} | Docker Hub Images", user, repo))
