@@ -16,3 +16,6 @@ color-eyre = "0.5"
 dotenv = "0.15"
 rss = { version = "1", features = ["builders"] }
 chrono = { version = "0.4", features = ["serde"] }
+
+[profile.release]
+lto = true
