@@ -3,7 +3,10 @@ name: docker-build
 on:
   push:
     branches:
+      - 'master'
       - 'main'
+  repository_dispatch:
+    types: [ build ]
 
 jobs:
   docker:
