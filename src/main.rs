@@ -47,8 +47,7 @@ async fn feed_inner(user: String, repo: String, hub: Hub) -> Result<impl warp::R
         .title(format!("{}/{} | Docker Hub Images", user, repo))
         .link(format!("https://hub.docker.com/r/{}/{}", user, repo))
         .description(format!("Image updates for {}/{}", user, repo))
-        .build()
-        .unwrap();
+        .build();
 
     let tags = hub.tags(&user, &repo).await?;
 
@@ -65,12 +64,10 @@ async fn feed_inner(user: String, repo: String, hub: Hub) -> Result<impl warp::R
                     GuidBuilder::default()
                         .value(format!("{}-{}", tag.id, tag.last_updated.timestamp()))
                         .permalink(false)
-                        .build()
-                        .unwrap(),
+                        .build(),
                 )
                 .pub_date(tag.last_updated.to_rfc2822())
                 .build()
-                .unwrap()
         })
         .collect();
 

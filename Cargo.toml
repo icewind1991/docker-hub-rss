@@ -7,15 +7,15 @@ license = "MIT OR Apache-2.0"
 repository = "https://github.com/icewind1991/docker-hub-rss"
 
 [dependencies]
-tokio = { version = "1", features = ["macros", "rt-multi-thread", "signal"] }
-serde = { version = "1", features = ["derive"] }
-reqwest = { version = "0.11", default-features = false, features = ["rustls-tls", "json"] }
-warp = "0.3"
-serde_json = "1"
-color-eyre = "0.5"
-dotenv = "0.15"
-rss = { version = "1", features = ["builders"] }
-chrono = { version = "0.4", features = ["serde"] }
+tokio = { version = "1.20.0", features = ["macros", "rt-multi-thread", "signal"] }
+serde = { version = "1.0.139", features = ["derive"] }
+reqwest = { version = "0.11.11", default-features = false, features = ["rustls-tls", "json"] }
+warp = "0.3.2"
+serde_json = "1.0.82"
+color-eyre = "0.6.2"
+dotenv = "0.15.0"
+rss = { version = "2.0.1", features = ["builders"] }
+chrono = { version = "0.4.19", features = ["serde"] }
 
 [profile.release]
 lto = true
