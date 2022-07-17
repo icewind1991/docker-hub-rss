@@ -2,6 +2,7 @@ mod hub;
 use crate::hub::Hub;
 use color_eyre::{Report, Result};
 use rss::{Channel, ChannelBuilder, GuidBuilder, ItemBuilder};
+use time::format_description::well_known::Rfc2822;
 use tokio::signal::unix::{signal, SignalKind};
 use warp::reject::Reject;
 use warp::{Filter, Rejection};
@@ -62,11 +63,11 @@ async fn feed_inner(user: String, repo: String, hub: Hub) -> Result<impl warp::R
                 ))
                 .guid(
                     GuidBuilder::default()
-                        .value(format!("{}-{}", tag.id, tag.last_updated.timestamp()))
+                        .value(format!("{}-{}", tag.id, tag.last_updated.unix_timestamp()))
                         .permalink(false)
                         .build(),
                 )
-                .pub_date(tag.last_updated.to_rfc2822())
+                .pub_date(tag.last_updated.format(&Rfc2822).unwrap())
                 .build()
         })
         .collect();

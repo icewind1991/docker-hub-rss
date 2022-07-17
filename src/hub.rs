@@ -1,8 +1,8 @@
-use chrono::{DateTime, Utc};
 use color_eyre::eyre::WrapErr;
 use color_eyre::{eyre::ensure, Result};
 use reqwest::Client;
 use serde::Deserialize;
+use time::OffsetDateTime;
 
 #[derive(Default, Clone)]
 pub struct Hub {
@@ -44,6 +44,7 @@ pub struct HubTagResponse {
 #[derive(Debug, Deserialize)]
 pub struct HubTag {
     pub id: u64,
-    pub last_updated: DateTime<Utc>,
+    #[serde(with = "time::serde::rfc3339")]
+    pub last_updated: OffsetDateTime,
     pub name: String,
 }
