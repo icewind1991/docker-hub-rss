@@ -1,3 +1,5 @@
+# Moved to https://codeberg.org/icewind/docker-hub-rss
+
 # Docker Hub RSS
 
 RSS feed for Docker Hub images
